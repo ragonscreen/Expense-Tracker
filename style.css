@@ -1,15 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 :root {
-    --clr-neutral-100: ;
-    --clr-neutral-200: ;
+    --clr-primary-100: hsl(202, 61%, 93%);
+    --clr-primary-200: hsl(211, 100%, 50%);
+    --clr-primary-300: hsl(218, 100%, 35%);
 
-    --clr-primary: ;
+    --clr-danger-100: hsl(331, 100%, 96%);
+    --clr-danger-200: hsl(0, 91%, 43%);
+
     --clr-accent: ;
 
     --clr-neutral-50: hsl(0, 0%, 98%);
     --clr-neutral-100: hsl(240, 5%, 96%);
-    --clr-neutral-200: hsl(240, 6%, 92%);
+    --clr-neutral-200: hsl(240, 6%, 93%);
     --clr-neutral-300: hsl(240, 5%, 84%);
     --clr-neutral-400: hsl(240, 5%, 65%);
     --clr-neutral-500: hsl(240, 4%, 46%);
@@ -55,7 +58,7 @@ button {
 
 input:focus-visible,
 button:focus-visible {
-    outline: 2px solid var(--clr-neutral-800);
+    outline: 2px solid var(--clr-primary-200);
     outline-offset: 2px;
 }
 
@@ -94,12 +97,16 @@ header {
     justify-content: space-between;
     align-items: center;
 
-    max-width: 80rem;
+    max-width: 75rem;
     margin: 0 auto;
     font-size: var(--fz-25);
 }
 
 .stats {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+
     color: var(--clr-neutral-600);
 }
 
@@ -108,8 +115,10 @@ header {
 }
 
 .amount-total {
-    color: var(--clr-neutral-900);
+    color: var(--clr-primary-200);
     font-size: var(--fz-500);
+    font-weight: 800;
+    letter-spacing: -0.04em;
 }
 
 .amount-total::before {
@@ -117,7 +126,7 @@ header {
 }
 
 main {
-    max-width: 80rem;
+    max-width: 75rem;
     margin: 0 auto;
     margin-top: 1rem;
 }
@@ -139,12 +148,10 @@ main {
 }
 
 .expense {
-    /* outline: 1px solid red; */
     display: flex;
     align-items: center;
     gap: 1rem;
 
-    /* background-color: var(--clr-neutral-200); */
     box-shadow: var(--bxsh-100);
     min-height: 2.5rem;
     border: 1px solid hsl(0, 0%, 0%, 0.08);
@@ -165,10 +172,11 @@ main {
 
 .expense__item {
     flex-grow: 1;
-    font-weight: 700;
-    letter-spacing: 0.02em;
+    font-weight: 600;
     word-wrap: break-word;
     word-break: break-all;
+
+    color: var(--clr-neutral-700);
 }
 
 .expense__amount {
@@ -190,29 +198,31 @@ main {
     transition: background-color 200ms, color 200ms;
 }
 
-.btn:hover {
-    background-color: var(--clr-neutral-300);
-}
-
-.btn:active {
-    background-color: var(--clr-neutral-400);
-}
-
 .btn-delete-all {
     justify-self: start;
 
+    background-color: var(--clr-danger-100);
+    box-shadow: unset;
+    color: var(--clr-danger-200);
     width: fit-content;
     min-height: 1.25rem;
     margin-top: 0.5rem;
     padding: 0.25rem 0.5rem;
+
     border-radius: 8px;
     font-size: var(--fz-25);
+}
+
+.btn-delete-all:focus-visible {
+    outline: 2px solid var(--clr-danger-200);
 }
 
 .btn-new-expense {
     display: grid;
     place-items: center;
 
+    background-color: var(--clr-primary-200);
+    color: var(--clr-neutral-100);
     width: 3rem;
     aspect-ratio: 1 / 1;
     border-radius: 50%;
@@ -222,6 +232,11 @@ main {
     right: 1rem;
 }
 
+.btn-new-expense:hover,
+.btn-new-expense:focus-visible {
+    background-color: var(--clr-primary-300);
+}
+
 .expense-modal {
     display: flex;
     flex-direction: column;
@@ -229,7 +244,7 @@ main {
 
     background-color: var(--clr-neutral-100);
     box-shadow: var(--bxsh-100);
-    min-height: 30rem;
+    /* min-height: 30rem; */
     margin: auto;
     border: 1px solid hsl(0, 0%, 0%, 0.25);
     border-radius: 16px;
@@ -290,10 +305,7 @@ main {
     transition: background-color 200ms;
 }
 
-.new-expense__input:hover {
-    background-color: var(--clr-neutral-200);
-}
-
+.new-expense__input:hover,
 .new-expense__input:focus-visible {
     background-color: var(--clr-neutral-200);
 }
@@ -315,6 +327,16 @@ main {
     font-size: var(--fz-50);
 }
 
+.btn-save {
+    background-color: var(--clr-primary-200);
+    color: var(--clr-neutral-100);
+}
+
+.btn-save:hover,
+.btn-save:focus-visible {
+    background-color: var(--clr-primary-300);
+}
+
 .btn-cancel {
     background-color: transparent;
     border-color: transparent;
@@ -324,7 +346,7 @@ main {
 .btn-cancel:hover {
     background-color: transparent;
     color: var(--clr-neutral-950);
-    color: green;
+    color: var(--clr-danger-200);
 }
 
 @media screen and (width > 768px) {
@@ -338,7 +360,7 @@ main {
     }
 
     .amount-total {
-        font-size: var(--fz-600);
+        font-size: var(--fz-700);
     }
 
     main {
@@ -378,6 +400,10 @@ main {
 
     .new-expense__entry:not(:first-of-type) {
         margin-top: 0.75rem;
+    }
+
+    .btn-save {
+        font-weight: 700;
     }
 
     .expenses {

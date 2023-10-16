@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/css/datepicker.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/js/datepicker.min.js" defer></script>
+    <script src="script.js" defer></script>
+    <title>Expense Tracker</title>
+</head>
+
+<body>
+    <header>
+        <div class="stats">
+            <div class="day-date">
+                <span class="day">Monday</span>,
+                <span class="date">16th October</span>
+            </div>
+            <div class="time-entries">
+                <span class="time">17:40</span>
+                <span class="divider">•</span>
+                <span class="weather">23F</span>
+            </div>
+            <p class="entries">18 Entries</p>
+        </div>
+
+        <h1 class="amount-total">45,687</h1>
+    </header>
+
+    <main>
+        <div class="sunshine">
+            <div class="new-expense-container">
+                <h1 class="new-expense__title">New Expense</h1>
+
+                <div class="new-expense__entries">
+                    <div class="new-expense__entry new-expense__date">
+                        <label class="new-expense__label" for="input-date">Date</label>
+                        <input class="new-expense__input input-date" type="text" name="input-date" id="input-date"
+                            autocomplete="off" readonly>
+                    </div>
+
+                    <div class="new-expense__entry new-expense__amount">
+                        <label class="new-expense__label" for="input-amount">Amount</label>
+                        <input class="new-expense__input" type="number" name="input-amount" id="input-amount"
+                            autocomplete="off" inputmode="numeric" oninput="validateNum(this)">
+                    </div>
+
+                    <div class="new-expense__entry new-expense__item">
+                        <label class="new-expense__label" for="input-item">Item</label>
+                        <input class="new-expense__input" type="text" name="input-item" id="input-item"
+                            autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="new-expense__btn-container">
+                    <button class="btn new-expense__btn btn-save">Add</button>
+                </div>
+            </div>
+
+            <div class="expenses">
+                <h1 class="expenses__title">Expenses</h1>
+
+                <div class="expense">
+                    <p class="expense__date">14/10/23</p>
+                    <p class="expense__item">Travel</p>
+                    <p class="expense__amount">487</p>
+                </div>
+                <div class="expense">
+                    <p class="expense__date">14/10/23</p>
+                    <p class="expense__item">Travel</p>
+                    <p class="expense__amount">487</p>
+                </div>
+                <div class="expense">
+                    <p class="expense__date">14/10/23</p>
+                    <p class="expense__item">Travel</p>
+                    <p class="expense__amount">487</p>
+                </div>
+
+                <button class="btn btn-delete-all">Delete all</button>
+            </div>
+        </div>
+
+        <dialog class="expense-modal" autofocus>
+            <h1 class="new-expense__title">New Expense</h1>
+
+            <div class="new-expense__entries">
+                <div class="new-expense__entry new-expense__date">
+                    <label class="new-expense__label" for="input-date">Date</label>
+                    <input class="new-expense__input input-date" type="text" name="input-date" id="input-date"
+                        autocomplete="off" readonly>
+                </div>
+
+                <div class="new-expense__entry new-expense__amount">
+                    <label class="new-expense__label" for="input-amount">Amount</label>
+                    <input class="new-expense__input" type="number" name="input-amount" id="input-amount"
+                        autocomplete="off" inputmode="numeric" oninput="validateNum(this)">
+                </div>
+
+                <div class="new-expense__entry new-expense__item">
+                    <label class="new-expense__label" for="input-item">Item</label>
+                    <input class="new-expense__input" type="text" name="input-item" id="input-item" autocomplete="off">
+                </div>
+            </div>
+
+            <div class="new-expense__btn-container">
+                <button class="btn new-expense__btn btn-save">Add</button>
+                <button class="btn new-expense__btn btn-cancel">Cancel</button>
+            </div>
+        </dialog>
+
+        <button class="btn btn-new-expense">
+            <i class="fa-solid fa-plus"></i>
+        </button>
+    </main>
+</body>
+
+</html>

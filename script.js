@@ -4,8 +4,13 @@
  * https://mymth.github.io/vanillajs-datepicker/#/
 */
 
-const input = document.querySelector('.input-date');
+const input = document.querySelector('#input-date');
+const modalInput = document.querySelector('#modal__input-date');
 const datepicker = new Datepicker(input, {
+    autohide: true,
+    format: 'dd/mm/yy'
+});
+const modalDatepicker = new Datepicker(modalInput, {
     autohide: true,
     format: 'dd/mm/yy'
 });
@@ -16,8 +21,9 @@ const datepicker = new Datepicker(input, {
  * 01. Initialise all expenses after retreieving them from local storage.
  * 02. Add a new expense.
  * 03. Render an expense element.
- * 04. Delete all expense elements.
- * 05. Toggle empty state.
+ * 04.
+ * 05. Delete all expense elements.
+ * 06. Toggle empty state.
 */
 
 let DATABASE = [];
@@ -52,29 +58,13 @@ const initialiseExpenses = () => {
     amountTotalElement.textContent = totalAmount.toLocaleString();
 };
 
-// 01
-// const modal = document.querySelector('.expense-modal');
-
-// const btnNewExpense = document.querySelector('.btn-new-expense');
-// btnNewExpense.addEventListener('click', () => {
-//     modal.showModal();
-// });
-
-// const btnCancel = document.querySelector('.btn-cancel');
-// btnCancel.addEventListener('click', () => {
-//     modal.close();
-// });
-
-
-
-const btnSave = document.querySelector('.btn-save');
-btnSave.addEventListener('click', () => {
-    addExpense();
-});
-
 const inputDate = document.querySelector('#input-date');
 const inputAmount = document.querySelector('#input-amount');
 const inputItem = document.querySelector('#input-item');
+
+const modalInputDate = document.querySelector('#modal__input-date');
+const modalInputAmount = document.querySelector('#modal__input-amount');
+const modalInputItem = document.querySelector('#modal__input-item');
 
 /**
  * 02. Add a new expense.
@@ -82,6 +72,7 @@ const inputItem = document.querySelector('#input-item');
  * - Renders a new expense element for the expense.
  * - Updates local storage after adding the expense.
  * - Updates the total amount.
+ * - Different versions for regular vs modal. (Need to fix)
 */
 
 const addExpense = () => {
@@ -100,15 +91,33 @@ const addExpense = () => {
     };
 
     DATABASE.push(element);
-    amountTotalElement.textContent =
-        (
-            parseInt(amountTotalElement.textContent.replace(',', '')) +
-            parseInt(amount)
-        ).toLocaleString();
-
+    updateAmount(amount);
     updateLocalStorage(localStorageExpensesKey, DATABASE);
     renderExpenseElement(element);
     reset();
+};
+
+const modalAddExpense = () => {
+    if (!modalInputDate.value || !modalInputAmount.value || !modalInputItem.value) return;
+
+    const id = new Date().getTime().toString();
+    const date = modalInputDate.value;
+    const amount = modalInputAmount.value;
+    const item = modalInputItem.value;
+
+    const element = {
+        id: id,
+        date: date,
+        amount: amount,
+        item: item
+    };
+
+    DATABASE.push(element);
+    updateAmount(amount);
+    updateLocalStorage(localStorageExpensesKey, DATABASE);
+    renderExpenseElement(element);
+    reset();
+    modal.close();
 };
 
 const btnDeleteAll = document.querySelector('.btn-delete-all');
@@ -138,12 +147,84 @@ const renderExpenseElement = e => {
     }
 };
 
+document.addEventListener('click', e => {
+    const element = e.target.closest('.expense');
+    if (element) editExpense(element);
+});
+
+const modal = document.querySelector('.expense-modal');
+const btnCancel = document.querySelector('.btn-cancel');
+const btnSave = document.querySelector('#btn-save');
+const btnNewExpense = document.querySelector('.btn-new-expense');
+const btnModalAdd = document.querySelector('#btn-modal-add');
+const btnEdit = document.querySelector('#btn-edit');
+
+btnCancel.addEventListener('click', () => {
+    modal.close();
+});
+btnSave.addEventListener('click', () => {
+    addExpense();
+});
+btnNewExpense.addEventListener('click', () => {
+    btnEdit.style.display = 'none';
+    btnModalAdd.style.display = 'block';
+    reset();
+    const modalTitle = modal.querySelector('.new-expense__title');
+    modalTitle.textContent = 'New Expense';
+    modal.showModal();
+    btnModalAdd.addEventListener('click', () => {
+        modalAddExpense();
+    });
+});
+
+/**
+ * 04. Edit an expense.
+ * - Gets the current data and updates the input fields.
+ * - Checks which entry is being edited by evaluating the data-id.
+ * - Updates the local storage once edited.
+ * - Resets the id back to not mess up the next element which will be edited.
+*/
+
+const editExpense = element => {
+    modal.showModal();
+    btnModalAdd.style.display = 'none';
+    btnEdit.style.display = 'block';
+
+    let id = element.dataset.id;
+    const elementDate = element.querySelector('.expense__date');
+    const elementAmount = element.querySelector('.expense__amount');
+    const elementItem = element.querySelector('.expense__item');
+
+    modalInputDate.value = elementDate.textContent;
+    modalInputAmount.value = elementAmount.textContent;
+    modalInputItem.value = elementItem.textContent;
+
+    btnEdit.addEventListener('click', () => {
+        DATABASE.map(entry => {
+            if (entry.id == id) {
+                entry.date = modalInputDate.value;
+                entry.amount = modalInputAmount.value;
+                entry.item = modalInputItem.value;
+
+                elementDate.textContent = modalInputDate.value;
+                elementAmount.textContent = modalInputAmount.value;
+                elementItem.textContent = modalInputItem.value;
+            }
+            return entry;
+        });
+        updateLocalStorage(localStorageExpensesKey, DATABASE);
+        updateAmount();
+        id = '';
+        modal.close();
+    });
+};
+
 btnDeleteAll.addEventListener('click', () => {
     deleteAll();
 });
 
 /**
- * 04. Delete all expense elements.
+ * 05. Delete all expense elements.
  * - Removes all expenses from local storage.
  * - Removes all expense elements.
  * - Renders empty state.
@@ -159,7 +240,7 @@ const deleteAll = () => {
 };
 
 /**
- * 05. Toggle empty state.
+ * 06. Toggle empty state.
 */
 
 const renderEmptyState = () => {
@@ -173,7 +254,22 @@ const disableEmptyState = () => {
 };
 
 /**
+ * 07. Update the total amount.
+ * - Gets the data from DATABASE.
+*/
+const updateAmount = () => {
+    let amount = 0;
+    DATABASE.map(e => amount += parseInt(e.amount));
+    amountTotalElement.textContent = amount.toLocaleString();
+};
+
+/**
  * <----- Local Storage ----->
+ *
+ * 01. Gets the local storage.
+ * - Returns an empty array if no values are found for the associated key.
+ *
+ * 02. Updates the local storage with the supplied value.
 */
 
 // 01
@@ -187,24 +283,6 @@ const getLocalStorage = key => {
 const updateLocalStorage = (key, value) => {
     localStorage.setItem(key, JSON.stringify(value));
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /**
  * <----- Secondary Functionality ----->
@@ -319,4 +397,8 @@ const reset = () => {
     inputDate.value = '';
     inputAmount.value = '';
     inputItem.value = '';
+
+    modalInputDate.value = '';
+    modalInputAmount.value = '';
+    modalInputItem.value = '';
 };

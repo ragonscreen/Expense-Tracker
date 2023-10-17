@@ -210,6 +210,7 @@ main {
     color: var(--clr-neutral-800);
     box-shadow: var(--bxsh-100);
     border: 1px solid hsl(0, 0%, 0%, 0.08);
+    font-size: var(--fz-50);
     cursor: pointer;
 
     transition: background-color 200ms, color 200ms;
@@ -327,7 +328,7 @@ main {
     background-color: var(--clr-neutral-200);
 }
 
-#input-item {
+.input-item {
     font-weight: 700;
 }
 
@@ -338,15 +339,13 @@ main {
     margin-top: auto;
 }
 
-.new-expense__btn {
-    padding: 0.25rem 0.5rem;
-    border-radius: 8px;
-    font-size: var(--fz-50);
-}
-
 .btn-save {
     background-color: var(--clr-primary-200);
     color: var(--clr-neutral-100);
+    padding: 0.25rem 0.5rem;
+    border-radius: 8px;
+    font-size: var(--fz-50);
+    font-weight: 700;
 }
 
 .btn-save:hover,
@@ -391,9 +390,9 @@ main {
         align-items: start;
     }
 
-    .expense-modal {
+    /* .expense-modal {
         display: none;
-    }
+    } */
 
     .btn-new-expense {
         display: none;
@@ -417,10 +416,6 @@ main {
 
     .new-expense__entry:not(:first-of-type) {
         margin-top: 0.75rem;
-    }
-
-    .btn-save {
-        font-weight: 700;
     }
 
     .expenses {

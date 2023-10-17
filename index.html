@@ -44,19 +44,19 @@
 
                     <div class="new-expense__entry new-expense__amount">
                         <label class="new-expense__label" for="input-amount">Amount</label>
-                        <input class="new-expense__input" type="number" name="input-amount" id="input-amount"
-                            autocomplete="off" inputmode="numeric" oninput="validateNum(this)">
+                        <input class="new-expense__input input-amount" type="number" name="input-amount"
+                            id="input-amount" autocomplete="off" inputmode="numeric" oninput="validateNum(this)">
                     </div>
 
                     <div class="new-expense__entry new-expense__item">
                         <label class="new-expense__label" for="input-item">Item</label>
-                        <input class="new-expense__input" type="text" name="input-item" id="input-item"
+                        <input class="new-expense__input input-item" type="text" name="input-item" id="input-item"
                             autocomplete="off">
                     </div>
                 </div>
 
                 <div class="new-expense__btn-container">
-                    <button class="btn new-expense__btn btn-save">Add</button>
+                    <button class="btn btn-save" id="btn-save">Add</button>
                 </div>
             </div>
 
@@ -66,39 +66,40 @@
             </div>
         </div>
 
-        <!-- <dialog class="expense-modal">
-            <h1 class="new-expense__title">New Expense</h1>
-
-            <div class="new-expense__entries">
-                <div class="new-expense__entry new-expense__date">
-                    <label class="new-expense__label" for="input-date">Date</label>
-                    <input class="new-expense__input input-date" type="text" name="input-date" id="input-date"
-                        autocomplete="off" readonly>
-                </div>
-
-                <div class="new-expense__entry new-expense__amount">
-                    <label class="new-expense__label" for="input-amount">Amount</label>
-                    <input class="new-expense__input" type="number" name="input-amount" id="input-amount"
-                        autocomplete="off" inputmode="numeric" oninput="validateNum(this)">
-                </div>
-
-                <div class="new-expense__entry new-expense__item">
-                    <label class="new-expense__label" for="input-item">Item</label>
-                    <input class="new-expense__input" type="text" name="input-item" id="input-item" autocomplete="off"
-                        autofocus>
-                </div>
-            </div>
-
-            <div class="new-expense__btn-container">
-                <button class="btn new-expense__btn btn-save">Add</button>
-                <button class="btn new-expense__btn btn-cancel">Cancel</button>
-            </div>
-        </dialog> -->
-
         <button class="btn btn-new-expense">
             <i class="fa-solid fa-plus"></i>
         </button>
     </main>
+
+    <dialog class="expense-modal">
+        <h1 class="new-expense__title">Edit Expense</h1>
+
+        <div class="new-expense__entries">
+            <div class="new-expense__entry new-expense__date">
+                <label class="new-expense__label" for="input-date">Date</label>
+                <input class="new-expense__input input-date" type="text" name="input-date" id="modal__input-date"
+                    autocomplete="off" readonly>
+            </div>
+
+            <div class="new-expense__entry new-expense__amount">
+                <label class="new-expense__label" for="input-amount">Amount</label>
+                <input class="new-expense__input input-amount" type="number" name="input-amount"
+                    id="modal__input-amount" autocomplete="off" inputmode="numeric" oninput="validateNum(this)">
+            </div>
+
+            <div class="new-expense__entry new-expense__item">
+                <label class="new-expense__label" for="input-item">Item</label>
+                <input class="new-expense__input input-item" type="text" name="input-item" id="modal__input-item"
+                    autocomplete="off" autofocus>
+            </div>
+        </div>
+
+        <div class="new-expense__btn-container">
+            <button class="btn btn-save" id="btn-modal-add">Add</button>
+            <button class="btn btn-save" id="btn-edit">Edit</button>
+            <button class="btn btn-cancel">Cancel</button>
+        </div>
+    </dialog>
 </body>
 
 </html>

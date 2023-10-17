@@ -224,6 +224,7 @@ const editExpense = element => {
 
 /**
  * 05. Delete all expense elements.
+ *
  * - Removes all expenses from local storage.
  * - Removes all expense elements.
  * - Renders empty state.
@@ -260,6 +261,7 @@ const disableEmptyState = () => {
 
 /**
  * 07. Update the total amount.
+ *
  * - Gets the data from DATABASE.
 */
 
@@ -296,7 +298,8 @@ const updateLocalStorage = (key, value) => {
  * 01. Show date and time.
  * - Checks date & time every second.
  * 02. Show temperature.
- * - Uses geolocation API to get location and OpenWeatherMap API to get temperature.
+ * - Uses geolocation API to get location.
+ * - Uses OpenWeatherMap API to get temperature. (https://openweathermap.org/current)
  * - User must enable location to display temperature.
 */
 

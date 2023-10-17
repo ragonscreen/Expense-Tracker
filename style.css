@@ -149,6 +149,10 @@ main {
 }
 
 .expenses {
+    display: none;
+}
+
+.expenses-visible {
     display: flex;
     flex-direction: column;
     gap: 0.125rem;

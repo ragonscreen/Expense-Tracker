@@ -118,6 +118,10 @@ header {
     color: var(--clr-neutral-300);
 }
 
+.temperature {
+    cursor: pointer;
+}
+
 .amount-total {
     color: var(--clr-primary-200);
     font-size: var(--fz-500);

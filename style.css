@@ -110,6 +110,10 @@ header {
     color: var(--clr-neutral-600);
 }
 
+.time {
+    text-transform: uppercase;
+}
+
 .divider {
     color: var(--clr-neutral-300);
 }

@@ -34,6 +34,7 @@ btnCancel.addEventListener('click', () => {
 
 /**
  * <----- Utility Functions ----->
+ *
  * 01. Decline non-numeric inputs in amount field
 */
 
@@ -43,3 +44,42 @@ const validateNum = elem => {
     const numValue = parseFloat(inputValue);
     if (isNaN(numValue) || numValue == 0) elem.value = '';
 }
+
+/**
+ * <----- Secondary Functionality ----->
+ *
+ * 01. Show date and time
+*/
+
+document.addEventListener('DOMContentLoaded', () => {
+    showDateTime();
+});
+
+// 01
+const dateElement = document.querySelector('.date');
+const timeElement = document.querySelector('.time');
+
+const showDateTime = () => {
+    const newDate = new Date();
+
+    const dateOptions = {
+        weekday: 'long',
+        month: 'long',
+        day: 'numeric'
+    };
+
+    const date = newDate.toLocaleDateString(undefined, dateOptions);
+    dateElement.textContent = date;
+
+    const timeOptions = {
+        hour: 'numeric',
+        minute: 'numeric'
+    }
+
+    const time = newDate.toLocaleTimeString(undefined, timeOptions);
+    timeElement.textContent = time;
+};
+
+setInterval(() => {
+    showDateTime();
+}, 1000);

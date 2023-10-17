@@ -45,17 +45,16 @@ document.addEventListener('DOMContentLoaded', () => {
 */
 
 const amountTotalElement = document.querySelector('.amount-total');
+const entriesElement = document.querySelector('.entries');
 
 const initialiseExpenses = () => {
-    let totalAmount = 0;
     const items = getLocalStorage(localStorageExpensesKey);
     items.forEach(item => {
-        totalAmount += parseInt(item.amount);
         DATABASE.push(item);
         renderExpenseElement(item);
     });
     if (DATABASE.length >= 1) disableEmptyState();
-    amountTotalElement.textContent = totalAmount.toLocaleString();
+    updateAmount();
 };
 
 /**
@@ -240,7 +239,7 @@ const deleteAll = () => {
     renderEmptyState();
     const elements = document.querySelectorAll('.expense');
     elements.forEach(element => element.remove());
-    amountTotalElement.textContent = '0';
+    updateAmount();
 };
 
 /**
@@ -263,12 +262,14 @@ const disableEmptyState = () => {
  * 07. Update the total amount.
  *
  * - Gets the data from DATABASE.
+ * - Updates the total amount and the number of current entries.
 */
 
 const updateAmount = () => {
     let amount = 0;
     DATABASE.map(e => amount += parseInt(e.amount));
     amountTotalElement.textContent = amount.toLocaleString();
+    entriesElement.textContent = DATABASE.length == 1 ? `${DATABASE.length} Entry` : `${DATABASE.length} Entries`;
 };
 
 /**

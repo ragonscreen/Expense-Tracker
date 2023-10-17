@@ -1,7 +1,6 @@
 /**
- * Custom datepicker
- *
- * Initialised using CDN links in HTML
+ * Custom datepicker built with vanilla JS.
+ * Initialised using CDN links in HTML.
  * https://mymth.github.io/vanillajs-datepicker/#/
 */
 
@@ -12,22 +11,34 @@ const datepicker = new Datepicker(input, {
 });
 
 /**
- * <----- Basic Functionality ----->
+ * <----- BASIC FUNCTIONALITY ----->
  *
- * 01. Modal Controls
+ * 01. Initialise all expenses after retreieving them from local storage.
+ * 02. Add a new expense.
+ * 03. Render an expense element.
+ * 04. Delete all expense elements.
+ * 05. Toggle empty state.
 */
 
 let DATABASE = [];
 let localStorageExpensesKey = 'rag.expenses';
-
-const expensesContainer = document.querySelector('.expenses');
-const amountTotalElement = document.querySelector('.amount-total');
 
 document.addEventListener('DOMContentLoaded', () => {
     initialiseExpenses();
     showDateTime();
     showTemperature();
 });
+
+const expensesContainer = document.querySelector('.expenses');
+const amountTotalElement = document.querySelector('.amount-total');
+
+/**
+ * 01. Initialise all expenses after retreieving them from local storage.
+ *
+ * - Renders each expense.
+ * - Calculates the total amount.
+ * - Checks for empty state.
+*/
 
 const initialiseExpenses = () => {
     let totalAmount = 0;
@@ -37,7 +48,7 @@ const initialiseExpenses = () => {
         DATABASE.push(item);
         renderExpenseElement(item);
     });
-    if (DATABASE.length >= 1) expensesContainer.classList.add('expenses-visible');
+    if (DATABASE.length >= 1) disableEmptyState();
     amountTotalElement.textContent = totalAmount.toLocaleString();
 };
 
@@ -55,16 +66,23 @@ const initialiseExpenses = () => {
 // });
 
 
-// Add a new expense
+
+const btnSave = document.querySelector('.btn-save');
+btnSave.addEventListener('click', () => {
+    addExpense();
+});
+
 const inputDate = document.querySelector('#input-date');
 const inputAmount = document.querySelector('#input-amount');
 const inputItem = document.querySelector('#input-item');
 
-const btnSave = document.querySelector('.btn-save');
-
-btnSave.addEventListener('click', () => {
-    addExpense();
-});
+/**
+ * 02. Add a new expense.
+ *
+ * - Renders a new expense element for the expense.
+ * - Updates local storage after adding the expense.
+ * - Updates the total amount.
+*/
 
 const addExpense = () => {
     if (!inputDate.value || !inputAmount.value || !inputItem.value) return;
@@ -93,8 +111,15 @@ const addExpense = () => {
     reset();
 };
 
-// Render each expense element
 const btnDeleteAll = document.querySelector('.btn-delete-all');
+
+/**
+ * 03. Render an expense element.
+ *
+ * - Creates a new `div` with a class of `expense` and a unique `data-id`.
+ * - Adds the necessary HTMl within the element.
+ * - Adds it to the DOM right before the `btn-delete-all` button.
+*/
 
 const renderExpenseElement = e => {
     disableEmptyState();
@@ -113,10 +138,16 @@ const renderExpenseElement = e => {
     }
 };
 
-// Delete all expenses
 btnDeleteAll.addEventListener('click', () => {
     deleteAll();
 });
+
+/**
+ * 04. Delete all expense elements.
+ * - Removes all expenses from local storage.
+ * - Removes all expense elements.
+ * - Renders empty state.
+*/
 
 const deleteAll = () => {
     DATABASE = DATABASE.filter(e => !e);
@@ -127,7 +158,10 @@ const deleteAll = () => {
     amountTotalElement.textContent = '0';
 };
 
-// Toggle empty state depending upon if there are any expenses
+/**
+ * 05. Toggle empty state.
+*/
+
 const renderEmptyState = () => {
     expensesContainer.classList.remove('expenses-visible');
 };

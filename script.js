@@ -21,9 +21,10 @@ const modalDatepicker = new Datepicker(modalInput, {
  * 01. Initialise all expenses after retreieving them from local storage.
  * 02. Add a new expense.
  * 03. Render an expense element.
- * 04.
+ * 04. Edit an expense.
  * 05. Delete all expense elements.
  * 06. Toggle empty state.
+ * 07. Update the total amount.
 */
 
 let DATABASE = [];
@@ -35,9 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
     showTemperature();
 });
 
-const expensesContainer = document.querySelector('.expenses');
-const amountTotalElement = document.querySelector('.amount-total');
-
 /**
  * 01. Initialise all expenses after retreieving them from local storage.
  *
@@ -45,6 +43,8 @@ const amountTotalElement = document.querySelector('.amount-total');
  * - Calculates the total amount.
  * - Checks for empty state.
 */
+
+const amountTotalElement = document.querySelector('.amount-total');
 
 const initialiseExpenses = () => {
     let totalAmount = 0;
@@ -58,14 +58,6 @@ const initialiseExpenses = () => {
     amountTotalElement.textContent = totalAmount.toLocaleString();
 };
 
-const inputDate = document.querySelector('#input-date');
-const inputAmount = document.querySelector('#input-amount');
-const inputItem = document.querySelector('#input-item');
-
-const modalInputDate = document.querySelector('#modal__input-date');
-const modalInputAmount = document.querySelector('#modal__input-amount');
-const modalInputItem = document.querySelector('#modal__input-item');
-
 /**
  * 02. Add a new expense.
  *
@@ -74,6 +66,13 @@ const modalInputItem = document.querySelector('#modal__input-item');
  * - Updates the total amount.
  * - Different versions for regular vs modal. (Need to fix)
 */
+
+const inputDate = document.querySelector('#input-date');
+const inputAmount = document.querySelector('#input-amount');
+const inputItem = document.querySelector('#input-item');
+const modalInputDate = document.querySelector('#modal__input-date');
+const modalInputAmount = document.querySelector('#modal__input-amount');
+const modalInputItem = document.querySelector('#modal__input-item');
 
 const addExpense = () => {
     if (!inputDate.value || !inputAmount.value || !inputItem.value) return;
@@ -120,8 +119,6 @@ const modalAddExpense = () => {
     modal.close();
 };
 
-const btnDeleteAll = document.querySelector('.btn-delete-all');
-
 /**
  * 03. Render an expense element.
  *
@@ -129,6 +126,8 @@ const btnDeleteAll = document.querySelector('.btn-delete-all');
  * - Adds the necessary HTMl within the element.
  * - Adds it to the DOM right before the `btn-delete-all` button.
 */
+
+const btnDeleteAll = document.querySelector('.btn-delete-all');
 
 const renderExpenseElement = e => {
     disableEmptyState();
@@ -147,10 +146,17 @@ const renderExpenseElement = e => {
     }
 };
 
-document.addEventListener('click', e => {
-    const element = e.target.closest('.expense');
-    if (element) editExpense(element);
-});
+/**
+ * 04. Edit an expense.
+ *
+ * - Gets the current data and updates the input fields.
+ * - Checks which entry is being edited by evaluating the data-id.
+ * - Updates the local storage once edited.
+ * - Resets the id back to not mess up the next element which will be edited.
+ *
+ * 04b. Modal Functionalities
+ * - Shows/hides btnModalAdd and btnEdit depending upon the current state.
+*/
 
 const modal = document.querySelector('.expense-modal');
 const btnCancel = document.querySelector('.btn-cancel');
@@ -177,13 +183,10 @@ btnNewExpense.addEventListener('click', () => {
     });
 });
 
-/**
- * 04. Edit an expense.
- * - Gets the current data and updates the input fields.
- * - Checks which entry is being edited by evaluating the data-id.
- * - Updates the local storage once edited.
- * - Resets the id back to not mess up the next element which will be edited.
-*/
+document.addEventListener('click', e => {
+    const element = e.target.closest('.expense');
+    if (element) editExpense(element);
+});
 
 const editExpense = element => {
     modal.showModal();
@@ -219,16 +222,16 @@ const editExpense = element => {
     });
 };
 
-btnDeleteAll.addEventListener('click', () => {
-    deleteAll();
-});
-
 /**
  * 05. Delete all expense elements.
  * - Removes all expenses from local storage.
  * - Removes all expense elements.
  * - Renders empty state.
 */
+
+btnDeleteAll.addEventListener('click', () => {
+    deleteAll();
+});
 
 const deleteAll = () => {
     DATABASE = DATABASE.filter(e => !e);
@@ -242,6 +245,8 @@ const deleteAll = () => {
 /**
  * 06. Toggle empty state.
 */
+
+const expensesContainer = document.querySelector('.expenses');
 
 const renderEmptyState = () => {
     expensesContainer.classList.remove('expenses-visible');
@@ -257,6 +262,7 @@ const disableEmptyState = () => {
  * 07. Update the total amount.
  * - Gets the data from DATABASE.
 */
+
 const updateAmount = () => {
     let amount = 0;
     DATABASE.map(e => amount += parseInt(e.amount));

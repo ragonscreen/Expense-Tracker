@@ -35,8 +35,9 @@ btnCancel.addEventListener('click', () => {
 /**
  * <----- Secondary Functionality ----->
  *
- * 01. Show date and time
- * 02. Show temperature
+ * 01. Show date and time.
+ * - Checks date & time every second.
+ * 02. Show temperature.
  * - Uses geolocation API to get location and OpenWeatherMap API to get temperature.
  * - User must enable location to display temperature.
 */

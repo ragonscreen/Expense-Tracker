@@ -83,6 +83,11 @@ input[type=number] {
     -moz-appearance: textfield;
 }
 
+::selection {
+    background-color: var(--clr-primary-200);
+    color: var(--clr-primary-100);
+}
+
 body {
     background-color: var(--clr-neutral-100);
     color: var(--clr-neutral-800);
@@ -115,7 +120,7 @@ header {
 }
 
 .divider {
-    color: var(--clr-neutral-300);
+    color: hsl(240, 5%, 40%, 0.15);
 }
 
 .temperature {
@@ -151,7 +156,7 @@ main {
 
 .expenses__title {
     color: var(--clr-neutral-800);
-    font-size: var(--fz-400);
+    font-size: var(--fz-300);
     margin-bottom: 0.5rem;
 }
 
@@ -418,12 +423,16 @@ main {
         gap: 0.25rem;
     }
 
-    .btn-delete-all {
-        margin-top: 0.75rem;
+    .expenses__title {
+        font-size: var(--fz-400);
     }
 
     .expense {
         min-height: 3rem;
+    }
+
+    .btn-delete-all {
+        margin-top: 0.75rem;
     }
 
     .expense__item {

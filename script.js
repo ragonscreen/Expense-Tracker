@@ -2,17 +2,17 @@
  * Custom datepicker built with vanilla JS.
  * Initialised using CDN links in HTML.
  * https://mymth.github.io/vanillajs-datepicker/#/
-*/
+ */
 
 const input = document.querySelector('#input-date');
 const modalInput = document.querySelector('#modal__input-date');
 const datepicker = new Datepicker(input, {
     autohide: true,
-    format: 'dd/mm/yy'
+    format: 'dd/mm/yy',
 });
 const modalDatepicker = new Datepicker(modalInput, {
     autohide: true,
-    format: 'dd/mm/yy'
+    format: 'dd/mm/yy',
 });
 
 /**
@@ -25,7 +25,7 @@ const modalDatepicker = new Datepicker(modalInput, {
  * 05. Delete all expense elements.
  * 06. Toggle empty state.
  * 07. Update the total amount.
-*/
+ */
 
 let DATABASE = [];
 let localStorageExpensesKey = 'rag.expenses';
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
  * - Renders each expense.
  * - Calculates the total amount.
  * - Checks for empty state.
-*/
+ */
 
 const amountTotalElement = document.querySelector('.amount-total');
 const entriesElement = document.querySelector('.entries');
@@ -64,7 +64,7 @@ const initialiseExpenses = () => {
  * - Updates local storage after adding the expense.
  * - Updates the total amount.
  * - Different versions for regular vs modal. (Need to fix)
-*/
+ */
 
 const inputDate = document.querySelector('#input-date');
 const inputAmount = document.querySelector('#input-amount');
@@ -85,7 +85,7 @@ const addExpense = () => {
         id: id,
         date: date,
         amount: amount,
-        item: item
+        item: item,
     };
 
     DATABASE.push(element);
@@ -96,7 +96,12 @@ const addExpense = () => {
 };
 
 const modalAddExpense = () => {
-    if (!modalInputDate.value || !modalInputAmount.value || !modalInputItem.value) return;
+    if (
+        !modalInputDate.value ||
+        !modalInputAmount.value ||
+        !modalInputItem.value
+    )
+        return;
 
     const id = new Date().getTime().toString();
     const date = modalInputDate.value;
@@ -107,7 +112,7 @@ const modalAddExpense = () => {
         id: id,
         date: date,
         amount: amount,
-        item: item
+        item: item,
     };
 
     DATABASE.push(element);
@@ -124,7 +129,7 @@ const modalAddExpense = () => {
  * - Creates a new `div` with a class of `expense` and a unique `data-id`.
  * - Adds the necessary HTMl within the element.
  * - Adds it to the DOM right before the `btn-delete-all` button.
-*/
+ */
 
 const btnDeleteAll = document.querySelector('.btn-delete-all');
 
@@ -134,8 +139,7 @@ const renderExpenseElement = e => {
     const element = document.createElement('div');
     element.classList.add('expense');
     element.dataset.id = e.id;
-    const html =
-        `<p class="expense__date">${e.date}</p>
+    const html = `<p class="expense__date">${e.date}</p>
         <p class="expense__item">${e.item}</p>
         <p class="expense__amount">${e.amount}</p>`;
     element.innerHTML = html;
@@ -155,7 +159,7 @@ const renderExpenseElement = e => {
  *
  * 04b. Modal Functionalities
  * - Shows/hides btnModalAdd and btnEdit depending upon the current state.
-*/
+ */
 
 const modal = document.querySelector('.expense-modal');
 const btnCancel = document.querySelector('.btn-cancel');
@@ -227,7 +231,7 @@ const editExpense = element => {
  * - Removes all expenses from local storage.
  * - Removes all expense elements.
  * - Renders empty state.
-*/
+ */
 
 btnDeleteAll.addEventListener('click', () => {
     deleteAll();
@@ -244,7 +248,7 @@ const deleteAll = () => {
 
 /**
  * 06. Toggle empty state.
-*/
+ */
 
 const expensesContainer = document.querySelector('.expenses');
 
@@ -254,7 +258,7 @@ const renderEmptyState = () => {
 
 const disableEmptyState = () => {
     if (!expensesContainer.classList.contains('expenses-visible')) {
-        expensesContainer.classList.add('expenses-visible')
+        expensesContainer.classList.add('expenses-visible');
     }
 };
 
@@ -263,13 +267,16 @@ const disableEmptyState = () => {
  *
  * - Gets the data from DATABASE.
  * - Updates the total amount and the number of current entries.
-*/
+ */
 
 const updateAmount = () => {
     let amount = 0;
-    DATABASE.map(e => amount += parseInt(e.amount));
+    DATABASE.map(e => (amount += parseInt(e.amount)));
     amountTotalElement.textContent = amount.toLocaleString();
-    entriesElement.textContent = DATABASE.length == 1 ? `${DATABASE.length} Entry` : `${DATABASE.length} Entries`;
+    entriesElement.textContent =
+        DATABASE.length == 1
+            ? `${DATABASE.length} Entry`
+            : `${DATABASE.length} Entries`;
 };
 
 /**
@@ -279,7 +286,7 @@ const updateAmount = () => {
  * - Returns an empty array if no values are found for the associated key.
  *
  * 02. Updates the local storage with the supplied value.
-*/
+ */
 
 // 01
 const getLocalStorage = key => {
@@ -302,7 +309,7 @@ const updateLocalStorage = (key, value) => {
  * - Uses geolocation API to get location.
  * - Uses OpenWeatherMap API to get temperature. (https://openweathermap.org/current)
  * - User must enable location to display temperature.
-*/
+ */
 
 // 01
 const dateElement = document.querySelector('.date');
@@ -314,7 +321,7 @@ const showDateTime = () => {
     const dateOptions = {
         weekday: 'long',
         month: 'long',
-        day: 'numeric'
+        day: 'numeric',
     };
 
     const date = newDate.toLocaleDateString(undefined, dateOptions);
@@ -323,7 +330,7 @@ const showDateTime = () => {
     const timeOptions = {
         hour12: false,
         hour: 'numeric',
-        minute: 'numeric'
+        minute: 'numeric',
     };
 
     const time = newDate.toLocaleTimeString(undefined, timeOptions);
@@ -359,7 +366,7 @@ const showTemperature = () => {
             .then(data => {
                 let temp = Math.round(data.main.temp);
                 tempCelsius = `${temp}°C`;
-                tempFahrenheit = `${Math.round(temp * 9 / 5 + 32)}°F`;
+                tempFahrenheit = `${Math.round((temp * 9) / 5 + 32)}°F`;
                 temperatureElement.textContent = tempCelsius;
                 dividerElement.textContent = '•';
             })
@@ -369,12 +376,18 @@ const showTemperature = () => {
     };
 
     const error = () => {
-        console.log('Unable to display temperature. Please allow location access.');
+        console.log(
+            'Unable to display temperature. Please allow location access.'
+        );
         temperatureElement.style.display = 'none';
         dividerElement.style.display = 'none';
     };
 
-    navigator.geolocation.getCurrentPosition(success, error, temperatureOptions);
+    navigator.geolocation.getCurrentPosition(
+        success,
+        error,
+        temperatureOptions
+    );
 };
 
 /**
@@ -382,7 +395,7 @@ const showTemperature = () => {
  *
  * 01. Switch between celsius and fahrenheit in the `temperature` element.
  * 02. Decline non-numeric inputs in `.input-amount` fields.
-*/
+ */
 
 // 01
 temperatureElement.addEventListener('click', () => {

@@ -49,7 +49,7 @@ const entriesElement = document.querySelector('.entries');
 
 const initialiseExpenses = () => {
     const items = getLocalStorage(localStorageExpensesKey);
-    items.forEach(item => {
+    items.forEach((item) => {
         DATABASE.push(item);
         renderExpenseElement(item);
     });
@@ -133,7 +133,7 @@ const modalAddExpense = () => {
 
 const btnDeleteAll = document.querySelector('.btn-delete-all');
 
-const renderExpenseElement = e => {
+const renderExpenseElement = (e) => {
     disableEmptyState();
 
     const element = document.createElement('div');
@@ -186,12 +186,12 @@ btnNewExpense.addEventListener('click', () => {
     });
 });
 
-document.addEventListener('click', e => {
+document.addEventListener('click', (e) => {
     const element = e.target.closest('.expense');
     if (element) editExpense(element);
 });
 
-const editExpense = element => {
+const editExpense = (element) => {
     modal.showModal();
     btnModalAdd.style.display = 'none';
     btnEdit.style.display = 'block';
@@ -206,7 +206,7 @@ const editExpense = element => {
     modalInputItem.value = elementItem.textContent;
 
     btnEdit.addEventListener('click', () => {
-        DATABASE.map(entry => {
+        DATABASE.map((entry) => {
             if (entry.id == id) {
                 entry.date = modalInputDate.value;
                 entry.amount = modalInputAmount.value;
@@ -238,11 +238,11 @@ btnDeleteAll.addEventListener('click', () => {
 });
 
 const deleteAll = () => {
-    DATABASE = DATABASE.filter(e => !e);
+    DATABASE = DATABASE.filter((e) => !e);
     updateLocalStorage(localStorageExpensesKey, DATABASE);
     renderEmptyState();
     const elements = document.querySelectorAll('.expense');
-    elements.forEach(element => element.remove());
+    elements.forEach((element) => element.remove());
     updateAmount();
 };
 
@@ -271,7 +271,7 @@ const disableEmptyState = () => {
 
 const updateAmount = () => {
     let amount = 0;
-    DATABASE.map(e => (amount += parseInt(e.amount)));
+    DATABASE.map((e) => (amount += parseInt(e.amount)));
     amountTotalElement.textContent = amount.toLocaleString();
     entriesElement.textContent =
         DATABASE.length == 1
@@ -289,7 +289,7 @@ const updateAmount = () => {
  */
 
 // 01
-const getLocalStorage = key => {
+const getLocalStorage = (key) => {
     return localStorage.getItem(key)
         ? JSON.parse(localStorage.getItem(key))
         : [];
@@ -353,7 +353,7 @@ const showTemperature = () => {
         maximumAge: 60000,
     };
 
-    const success = position => {
+    const success = (position) => {
         const coordinates = position.coords;
         const lat = coordinates.latitude;
         const lon = coordinates.longitude;
@@ -362,15 +362,15 @@ const showTemperature = () => {
         const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
 
         fetch(url)
-            .then(response => response.json())
-            .then(data => {
+            .then((response) => response.json())
+            .then((data) => {
                 let temp = Math.round(data.main.temp);
                 tempCelsius = `${temp}°C`;
                 tempFahrenheit = `${Math.round((temp * 9) / 5 + 32)}°F`;
                 temperatureElement.textContent = tempCelsius;
                 dividerElement.textContent = '•';
             })
-            .catch(err => {
+            .catch((err) => {
                 console.log(err);
             });
     };
@@ -409,7 +409,7 @@ temperatureElement.addEventListener('click', () => {
 });
 
 // 02
-const validateNum = elem => {
+const validateNum = (elem) => {
     const inputValue = elem.value.trim();
     const numValue = parseFloat(inputValue);
     if (isNaN(numValue) || numValue == 0) elem.value = '';
